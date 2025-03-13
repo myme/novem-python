@@ -1,5 +1,6 @@
+from contextlib import _GeneratorContextManager, contextmanager
 from io import StringIO
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, ContextManager, Dict, Optional
 
 from novem.vis import NovemVisAPI
 
@@ -284,6 +285,13 @@ class Plot(NovemVisAPI):
     ###
     # Deal with frozen plots
     ###
+
+    @property
+    @contextmanager
+    def frozen(self):
+        self.freeze()
+        yield
+        self.run()
 
     def freeze(self) -> None:
         self._freeze = True
